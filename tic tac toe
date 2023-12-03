@@ -9,8 +9,11 @@ class TicTacToe:
         self.board = [" " for _ in range(9)]
         self.current_player = "X"
 
-        # Create buttons
-        self.buttons = [tk.Button(self.window, text=" ", font=('normal', 20), width=5, height=2, command=lambda i=i: self.click(i)) for i in range(9)]
+        # Create buttons with color
+        self.buttons = [
+            tk.Button(self.window, text=" ", font=('normal', 20), width=8, height=3, command=lambda i=i: self.click(i), bg="sky blue")
+            for i in range(9)
+        ]
 
         # Grid buttons
         for i in range(3):
@@ -20,7 +23,7 @@ class TicTacToe:
     def click(self, i):
         if self.board[i] == " ":
             self.board[i] = self.current_player
-            self.buttons[i].config(text=self.current_player)
+            self.buttons[i].config(text=self.current_player, bg="pink", state=tk.DISABLED)  
 
         winner = self.check_winner()
         if winner:
@@ -33,7 +36,6 @@ class TicTacToe:
             self.current_player = "O" if self.current_player == "X" else "X"
             if self.current_player == "O":
                 self.ai_move()
-
 
     def ai_move(self):
         best_score = -math.inf
@@ -77,7 +79,6 @@ class TicTacToe:
             return best_score
 
     def check_winner(self):
-    # Check rows, columns, and diagonals for a winner
         for i in range(3):
             if self.board[i * 3] == self.board[i * 3 + 1] == self.board[i * 3 + 2] != " ":
                 return self.board[i * 3]
@@ -93,11 +94,10 @@ class TicTacToe:
 
         return None
 
-
     def reset_board(self):
         self.board = [" " for _ in range(9)]
         for button in self.buttons:
-            button.config(text=" ")
+            button.config(text=" ", bg="sky blue", state=tk.NORMAL)  
         self.current_player = "X"
 
     def run(self):
